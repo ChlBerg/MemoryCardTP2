@@ -1,52 +1,51 @@
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GameFrame extends JFrame {
-    JButton button;
-    public GameFrame () {
-//        Card cards = new Card();
+public class GameFrame extends JFrame implements ActionListener {
 
-        button = new JButton();
-        button.setText("DOS");
-        button.addActionListener(e -> System.out.println("HELLO YOIUIISOAISPOASJ"));
+    JPanel panelMenu = new JPanel(new GridLayout(2,2,50,50));
+    JButton start = new JButton("Start");
+    JButton reset = new JButton("Reset");
+    JButton exit = new JButton("Exit");
+    Game game;
 
-        button.setSize(50,50);
+    GameFrame() {
+        setTitle("Memory Card Game");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000,1000);
+        setLocationRelativeTo(null);
 
+        start.addActionListener(this);
+        reset.addActionListener(this);
+        exit.addActionListener(this);
 
-//        JButton btn2 = new JButton();
-//        btn2.setText("DOS");
-//        btn2.setBounds(250,0,250,250);
-//        JButton btn3 = new JButton();
-//        btn3.setText("DOS");
-//        btn3.setBounds(250,250,50,50);
-//        JButton btn4 = new JButton();
-//        btn4.setText("DOS");
-//        btn4.setBounds(250,250,50,50);
-        this.setTitle("MEMORY CARD GAME");
-        this.setBackground(Color.lightGray);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(500,500);
-        this.add(button);
+        panelMenu.setBackground(new Color(192,192,192));
+        panelMenu.setBorder(new EmptyBorder(new Insets(400,10,400,15)));
+        panelMenu.setLayout(new BoxLayout(panelMenu, BoxLayout.X_AXIS));
 
-//        add(btn3);
-//        add(btn4);
+        panelMenu.add(reset);
+        panelMenu.add(Box.createRigidArea(new Dimension(10, 10)));
+        panelMenu.add(exit);
 
+        game = new Game();
+        this.add(game);
 
-//        JPanel field = new JPanel();
-//        JButton[] btn = new JButton[3];
-//        String[] board = new String[3];
-//
-//
-//        for(int i = 0; i < board.length;i++) {
-//            btn[i] = new JButton("");
-//            btn[i].setBackground(new Color(220, 220, 220));
-//            btn[i].addActionListener((ActionListener) this);
-//            btn[i].setEnabled(true);
-//            field.add(btn[i]);
-//        }
-//
-//        getContentPane().setLayout(new GridLayout(1,1));
+        this.add(panelMenu, BorderLayout.EAST);
+        this.setVisible(true);
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == reset) {
+            this.remove(game);
+            game = new Game();
+            this.add(game);
+            SwingUtilities.updateComponentTreeUI(this);
+        } else if (e.getSource() == exit) {
+            System.exit(0);
+        }
     }
 }
